@@ -1,0 +1,31 @@
+{
+  "name": "nodejs-server-anddb-for-todo-nativescript-app",
+  "version": "1.0.0",
+  "description": " node server for nativescript app\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dand database nativeScript app",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "chai": "^4.1.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mocha": "^4.0.1",
+    "morgan": "^1.9.0",
+    "mysql2": "^1.4.2",
+    "request": "^2.83.0",
+    "sequelize": "^4.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ammarRBK/nodejs-server-andDB-for-todo-NativeScript-app.git"
+  },
+  "author": "Ammar Al-Ahmad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ammarRBK/nodejs-server-andDB-for-todo-NativeScript-app/issues"
+  },
+  "homepage": "https://github.com/ammarRBK/nodejs-server-andDB-for-todo-NativeScript-app#readme"
+}
