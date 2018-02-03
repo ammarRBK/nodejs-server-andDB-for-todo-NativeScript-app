@@ -8,11 +8,13 @@ const usersTable= sequelizeCon.define('users',{
         allowNull: false
     },
     password:{
-        type: Sequelize.CHAR,
+        type: Sequelize.STRING,
         allowNull: false
     },
     user_id:{
-        primaryKey:true
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     }
 })
 //set "one to many" relation, that means the user has many tasks 

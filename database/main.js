@@ -14,7 +14,7 @@ const connection= new sequelize("todousers","root","ammar5301",{
 })
 
 //Checking connection status
-sequelize.authenticate()
+exports.checkCon = () =>{sequelize.authenticate()
 	.then(function(err) {
 		console.log('Connection to database has been established successfully');
 	})
@@ -22,6 +22,6 @@ sequelize.authenticate()
 	    console.log('There is connection ERROR', err);
     })
 
-    
+}
     
 module.exports= connection;
