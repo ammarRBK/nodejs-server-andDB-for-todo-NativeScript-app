@@ -1,3 +1,5 @@
+// import { usersTable } from "./database/tables/users";
+
 var express= require("express");
 var app= express();
 //database required files
@@ -39,6 +41,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
  });
+ var id=1;
  
 //welcom message
 app.get("/", (request,response) => {
@@ -46,7 +49,30 @@ app.get("/", (request,response) => {
 });
 
 app.post("/adduser",(req,res)=>{
+    
     console.log(req.body);
+    const user = usersDb.build({
+        username:req.body.username,
+        password:req.body.password,
+        user_id:id++
+    });
+
+    user.save().then(()=>{
+        console.log("the user",req.body.username,"saved in the database");
+        res.send("the user",req.body.username,"saved in the database");
+    }).catch(err =>{
+        console.log("Oops can not save the user because","\n",err)
+        res.send("Oops can not save the user because"+"\n"+err);
+    })  
+})
+
+app.get('/giveMeUser',(req,res)=>{
+    usersDb.findOne({where:{username:"ammar"}}).then(user =>{
+        res.send("welcom"+user.username);
+        console.log("------------------------->",user);
+    }).catch(err =>{
+        console.log("can not find user beause ",err);
+    })
 })
 
 
