@@ -67,14 +67,36 @@ app.post("/adduser",(req,res)=>{
 })
 
 app.get('/giveMeUser',(req,res)=>{
-    usersDb.findOne({where:{username:"ammar"}}).then(user =>{
+    usersDb.findOne({where:{username:"ammar123"}}).then(user =>{
         res.send("welcom"+user.username);
         console.log("------------------------->",user);
     }).catch(err =>{
         console.log("can not find user beause ",err);
+        res.send("can not find user beause ");
     })
 })
 
+app.post('/updateUser',(req,res)=>{
+    if(req.body.username){
+        usersDb.findOne({where:{username:"ammar"}}).then(user =>{
+            user.update({username:req.body.username},{where:{user_id:user.user_id}}).then(() =>{
+                console.log("user updated");
+            })
+        })
+        
+    }else if(req.body.password){
+            usersDb.update({password:req.body.password}).then(()=>{
+                res.sendStatus(200)
+                .send("you updated your password to "+req.body.password);
+        })
+    }
+   console.log("we do not have data");
+
+})
+
+app.post('/deleteUser',(req,res) =>{
+    
+})
 
 //check db conection function
 var mainDB= require("./database/main.js");
