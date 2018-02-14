@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
  });
- var id=1;
+ var id=2;
  
 //welcom message
 app.get("/", (request,response) => {
@@ -95,7 +95,10 @@ app.post('/updateUser',(req,res)=>{
 })
 
 app.post('/deleteUser',(req,res) =>{
-    
+    usersDb.findOne({where:{user_id:req.body.user_id}}).then(user => {
+        user.destroy({force:true});
+        res.send("the is deleted thanks");
+    })
 })
 
 //check db conection function
