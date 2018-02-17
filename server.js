@@ -67,11 +67,8 @@ app.post("/adduser",(req,res)=>{
 
 app.post('/login',(req,res)=>{
     usersDb.findOne({where:{username:req.body.username}}).then(user =>{
-        if(req.body.password === "1234"){
-            res.send("welcom");
-            console.log("------------------------->","welcom"+user.username);
-        }
-        res.send("wrong password")
+        console.log("------------------------->","welcom"+user.username+"\n"+user.password);
+        res.send(user);       
     }).catch(err =>{
         console.log("can not find user beause ",err);
         res.send("we do not have this user");
