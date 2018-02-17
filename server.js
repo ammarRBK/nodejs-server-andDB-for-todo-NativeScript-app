@@ -41,7 +41,6 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
  });
- var id=2;
  
 //welcom message
 app.get("/", (request,response) => {
@@ -53,26 +52,29 @@ app.post("/adduser",(req,res)=>{
     console.log(req.body);
     const user = usersDb.build({
         username:req.body.username,
-        password:req.body.password,
-        user_id:id++
+        password:req.body.password
+        
     });
 
     user.save().then(()=>{
         console.log("the user",req.body.username,"saved in the database");
-        res.send("the user",req.body.username,"saved in the database");
+        res.send("the user saved in the database");
     }).catch(err =>{
         console.log("Oops can not save the user because","\n",err)
-        res.send("Oops can not save the user because"+"\n"+err);
+        res.send("Oops can not save the user because");
     })  
 })
 
-app.get('/giveMeUser',(req,res)=>{
-    usersDb.findOne({where:{username:"ammar123"}}).then(user =>{
-        res.send("welcom"+user.username);
-        console.log("------------------------->",user);
+app.post('/login',(req,res)=>{
+    usersDb.findOne({where:{username:req.body.username}}).then(user =>{
+        if(req.body.password === "1234"){
+            res.send("welcom");
+            console.log("------------------------->","welcom"+user.username);
+        }
+        res.send("wrong password")
     }).catch(err =>{
         console.log("can not find user beause ",err);
-        res.send("can not find user beause ");
+        res.send("we do not have this user");
     })
 })
 
