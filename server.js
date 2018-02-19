@@ -71,7 +71,8 @@ app.post('/login',(req,res)=>{
         res.send(user);       
     }).catch(err =>{
         console.log("can not find user beause ",err);
-        res.send("we do not have this user");
+        res.ok= false;
+        res.send(404,"we do not have this user");
     })
 })
 
