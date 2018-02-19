@@ -61,7 +61,7 @@ app.post("/adduser",(req,res)=>{
         res.send("the user saved in the database");
     }).catch(err =>{
         console.log("Oops can not save the user because","\n",err)
-        res.send("Oops can not save the user because");
+        res.send(404,{user:null,message:"wrong username"});
     })  
 })
 
