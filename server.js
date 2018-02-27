@@ -47,6 +47,19 @@ app.get("/", (request,response) => {
     response.send("welcom to server");
 });
 
+app.get('/getAllUsers',(req,res) => {
+    usersDb.findAll().then(users =>{
+        res.send(users);
+    })
+})
+app.get("/checkLoggedin",(req,res) => {
+    if(!req.session.user.username){
+        res.send("not loggedin");
+    }else{
+        res.send("loggedin");
+    }
+})
+
 app.post("/adduser",(req,res)=>{
     
     console.log(req.body);
@@ -61,24 +74,33 @@ app.post("/adduser",(req,res)=>{
         res.send("the user saved in the database");
     }).catch(err =>{
         console.log("Oops can not save the user because","\n",err)
-        res.send(404,{user:null,message:"wrong username"});
+        res.send({user:null,message:"wrong username"});
     })  
-})
+});
 
 app.post('/login',(req,res)=>{
     usersDb.findOne({where:{username:req.body.username}}).then(user =>{
-        console.log("------------------------->","welcom"+user.username+"\n"+user.password);
+        console.log("------------------------->","welcom"+user.username+"\n"+user.password+"\n");
+        req.session.user= user;
+        console.log(req.session.user);
         res.send(user);       
     }).catch(err =>{
         console.log("can not find user beause ",err);
         res.ok= false;
         res.send(404,"we do not have this user");
     })
+});
+
+app.get('/logout',(req,res) => {
+    if(req.session.user.username){
+        req.session.destroy();
+    }
+    res.send("not loggedin")
 })
 
 app.post('/updateUser',(req,res)=>{
     if(req.body.username){
-        usersDb.findOne({where:{username:"ammar"}}).then(user =>{
+        usersDb.findOne({where:{username:req.body.username}}).then(user =>{
             user.update({username:req.body.username},{where:{user_id:user.user_id}}).then(() =>{
                 console.log("user updated");
             })
@@ -86,8 +108,7 @@ app.post('/updateUser',(req,res)=>{
         
     }else if(req.body.password){
             usersDb.update({password:req.body.password}).then(()=>{
-                res.sendStatus(200)
-                .send("you updated your password to "+req.body.password);
+                res.send(200,"you updated your password to "+req.body.password);
         })
     }
    console.log("we do not have data");
@@ -98,6 +119,23 @@ app.post('/deleteUser',(req,res) =>{
     usersDb.findOne({where:{user_id:req.body.user_id}}).then(user => {
         user.destroy({force:true});
         res.send("the is deleted thanks");
+    })
+})
+
+app.get('/addTask',(req,res) => {
+    const newTask= new tasksDb.build({
+        task: "drink water",
+        date: "25/2/2017",
+        time: "02:25 pm",
+        user_id: req.session.user.user_id
+    })
+    newTask.save().then( ()=>{
+        res.send("the task drink water added to ", req.session.user.username," tasks");
+        console.log("thanks");
+    })
+    .catch(error =>{
+        console.log("cannot add task","\n","----------->",error);
+        res.send("cannot add task")
     })
 })
 

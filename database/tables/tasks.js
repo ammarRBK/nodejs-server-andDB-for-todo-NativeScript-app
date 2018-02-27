@@ -13,7 +13,11 @@ const tasksTable= sequelizeCon.define('tasks',{
     },
     task_id:{
         type:Sequelize.INTEGER,
-        primaryKey:true
+        primaryKey:true,
+        autoIncrement: true
+    },
+    user_id:{
+        type: Sequelize.INTEGER
     }
 })
 
