@@ -123,14 +123,14 @@ app.post('/deleteUser',(req,res) =>{
 })
 
 app.get('/addTask',(req,res) => {
-    const newTask= new tasksDb.build({
+    const newTask=  tasksDb.build({
         task: "drink water",
         date: "25/2/2017",
         time: "02:25 pm",
-        user_id: req.session.user.user_id
+        user_id: 5
     })
     newTask.save().then( ()=>{
-        res.send("the task drink water added to ", req.session.user.username," tasks");
+        res.send("the task drink water added to tasks");
         console.log("thanks");
     })
     .catch(error =>{
