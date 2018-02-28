@@ -1,5 +1,3 @@
-// import { usersTable } from "./database/tables/users";
-
 var express= require("express");
 var app= express();
 //database required files
@@ -80,7 +78,7 @@ app.post("/adduser",(req,res)=>{
 
 app.post('/login',(req,res)=>{
     usersDb.findOne({where:{username:req.body.username}}).then(user =>{
-        console.log("------------------------->","welcom"+user.username+"\n"+user.password+"\n");
+        console.log("------------------------->","welcom "+user.username+"\n"+user.password+"\n");
         req.session.user= user;
         console.log(req.session.user);
         res.send(user);       
@@ -168,8 +166,19 @@ app.put('/editTask',(req,res)=> {
         res.send(500,error)
     })
 
-})
+});
 
+app.delete('/deleteTask',(req,res) => {
+    var taskId= req.body.taskId;
+    tasksDb.findOne({where:{task_id:taskId}}).then(task => {
+        task.destroy({force:true});
+        res.send(200,"task is deleted");
+    })
+    .catch( error => {
+        console.log("cannot find task because ","\n",error);
+        res.send(500,error);
+    })
+});
 //check db conection function
 var mainDB= require("./database/main.js");
 
