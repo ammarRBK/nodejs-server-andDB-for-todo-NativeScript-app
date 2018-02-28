@@ -153,8 +153,21 @@ app.get('/getTasks',(req,res)=> {
     })
 });
 
-app.post('/editTask',(req,res)=> {
-    
+app.put('/editTask',(req,res)=> {
+    var oldTaskID= req.body.oldTaskID;
+    var newTask= req.body.newTask;
+    console.log(oldTaskID);
+    tasksDb.findAll({where:{task_id:oldTaskID}}).then(task => {
+        res.send(task);
+        task.update({task:newTask}).then( ()=>{
+            console.log("task updated");
+        })
+    })
+    .catch(error => {
+        console.log("cannot edit task because ",error);
+        res.send(500,error)
+    })
+
 })
 
 //check db conection function
