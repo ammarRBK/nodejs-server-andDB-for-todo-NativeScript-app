@@ -92,10 +92,11 @@ app.post('/login',(req,res)=>{
 });
 
 app.get('/logout',(req,res) => {
-    if(req.session.user.username){
-        req.session.destroy();
+    if(!req.session.user){
+        res.send("not loggedin")
     }
-    res.send("not loggedin")
+    req.session.destroy();
+    res.send("تم تسجيل الخروج")
 })
 
 app.post('/updateUser',(req,res)=>{
@@ -126,7 +127,7 @@ app.get('/addTask',(req,res) => {
     console.log(200,req.session.user);
     const newTask=  tasksDb.build({
         task: "drink water",
-        date: "25-2-2017",
+        date: '25/2/2017',
         time: "02:25 pm",
         user_id: req.session.user.user_id
     })
@@ -138,6 +139,22 @@ app.get('/addTask',(req,res) => {
         console.log("cannot add task","\n","----------->",error);
         res.send("cannot add task")
     })
+});
+
+app.get('/getTasks',(req,res)=> {
+    console.log(req.session.user);
+    tasksDb.findAll({where:{user_id: req.session.user.user_id}}).then(tasks =>{
+        console.log("-----------------45555444> these are your tasks ","\n",tasks);
+        res.send(200,tasks);
+    })
+    .catch(error => {
+        console.log("error in database ","\n",error);
+        res.send(500,error);
+    })
+});
+
+app.post('/editTask',(req,res)=> {
+    
 })
 
 //check db conection function
