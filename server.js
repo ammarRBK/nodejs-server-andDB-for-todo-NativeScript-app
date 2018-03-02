@@ -121,7 +121,7 @@ app.post('/deleteUser',(req,res) =>{
     })
 })
 
-app.get('/addTask',(req,res) => {
+app.post('/addTask',(req,res) => {
     console.log(200,req.session.user);
     const newTask=  tasksDb.build({
         task: req.body.task,
@@ -130,8 +130,11 @@ app.get('/addTask',(req,res) => {
         user_id: req.session.user.user_id
     })
     newTask.save().then( ()=>{
-        res.send("the task drink water added to tasks");
-        console.log("thanks");
+        tasksDb.findOne({where:{task:req.body.task}}).then(task => {
+        	res.send({task:task.task,taskId:task.task_id});
+        	console.log("thanks");
+        })
+        
     })
     .catch(error =>{
         console.log("cannot add task","\n","----------->",error);
